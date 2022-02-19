@@ -23,55 +23,55 @@ public class ClientCustomRepository {
 	private final EntityManager em;
 
 	public List<Client> find(Long id, String nome, String cpf, String rg, String email, String limite) {
-		String query = "SELECT first " + limite + " * FROM CLIENTES ";
-		String condicao = "where ";
+		String query = "SELECT  * FROM CLIENTES";
+		String condicao = " WHERE ";
 
-		if (id != null) {
-			query += condicao + "CODIGO LIKE (:id)";
+		if (id != null && id != 0) {
+			query += condicao + "CODIGO = (:id)";
 			condicao = "and ";
 		}
 
-		if (nome != null) {
-			query += condicao + "NOME LIKE (:nome)";
+		if (nome != null && nome != "") {
+			query += condicao + "NOME ILIKE (:nome)";
 			condicao = "and ";
 		}
 
-		if (cpf != null) {
-			query += condicao + "CPF LIKE (:cpf)";
+		if (cpf != null && cpf != "") {
+			query += condicao + "CPF ILIKE (:cpf)";
 			condicao = "and ";
 		}
 
-		if (rg != null) {
-			query += condicao + "RG LIKE (:rg)";
+		if (rg != null && rg != "") {
+			query += condicao + "RG ILIKE (:rg)";
 			condicao = "and ";
 		}
 
-		if (email != null) {
-			query += condicao + "EMAIL LIKE (:email)";
+		if (email != null && email != "") {
+			query += condicao + "EMAIL ILIKE (:email)";
 			condicao = "and ";
 		}
 		
-		query+="ORDER BY CODIGO";
+		query+=" ORDER BY CODIGO LIMIT " + limite;
 
 		Query q = em.createNativeQuery(query, Client.class);
 
-		if (id != null) {
+		if (id != null && id != 0) {
 			q.setParameter("id", id);
 		}
 
-		if (nome != null) {
+		if (nome != null && nome != "") {
 			q.setParameter("nome", "%" + nome + "%");
 		}
 
-		if (cpf != null) {
+		if (cpf != null && cpf != "") {
 			q.setParameter("cpf", "%" + cpf + "%");
 		}
 
-		if (rg != null) {
+		if (rg != null && rg != "") {
 			q.setParameter("rg", "%" + rg + "%");
 		}
 
-		if (email != null) {
+		if (email != null && email != "") {
 			q.setParameter("email", "%" + email + "%");
 		}
 

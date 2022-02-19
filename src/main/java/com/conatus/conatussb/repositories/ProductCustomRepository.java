@@ -22,17 +22,17 @@ public class ProductCustomRepository {
 	
 	public List<Product> findCustomAll(Long id, String descricao, String inativo, String limite) {
 		
-		String query = "SELECT FIRST " + limite + " * FROM PRODUTOS as s ";
+		String query = "SELECT * FROM PRODUTOS as s ";
 		
 		String condicao = "where ";
 
 		if (id != null) {
-			query += condicao + "COD_PRODUTOS LIKE (:id)";
+			query += condicao + "COD_PRODUTOS = (:id)";
 			condicao = " and ";
 		}
 
 		if (descricao != null) {
-			query += condicao + "DESCRICAO LIKE (:descricao)";
+			query += condicao + "DESCRICAO ILIKE (:descricao)";
 			condicao = " and ";
 		}
 
@@ -43,7 +43,7 @@ public class ProductCustomRepository {
 			}
 		}
 		
-		query+="ORDER BY COD_PRODUTOS";
+		query+="ORDER BY COD_PRODUTOS LIMIT "+limite;
 
 		Query q = em.createNativeQuery(query, Product.class);
 

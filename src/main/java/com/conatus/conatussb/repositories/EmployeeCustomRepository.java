@@ -23,35 +23,35 @@ public class EmployeeCustomRepository {
 	private final EntityManager em;
 
 	public List<Employee> find(Long id, String nome, String cpf, String rg, String email, String limite) {
-		String query = "SELECT first " + limite + " * FROM FUNCIONARIO ";
+		String query = "SELECT * FROM FUNCIONARIO ";
 		String condicao = "where ";
 
 		if (id != null) {
-			query += condicao + "CODIGO LIKE (:id)";
+			query += condicao + "CODIGO = (:id)";
 			condicao = "and ";
 		}
 
 		if (nome != null) {
-			query += condicao + "NOME LIKE (:nome)";
+			query += condicao + "NOME ILIKE (:nome)";
 			condicao = "and ";
 		}
 
 		if (cpf != null) {
-			query += condicao + "CPF LIKE(:cpf)";
+			query += condicao + "CPF ILIKE(:cpf)";
 			condicao = "and ";
 		}
 
 		if (rg != null) {
-			query += condicao + "RG LIKE(:rg)";
+			query += condicao + "RG ILIKE(:rg)";
 			condicao = "and ";
 		}
 
 		if (email != null) {
-			query += condicao + "EMAIL LIKE (:email)";
+			query += condicao + "EMAIL ILIKE (:email)";
 			condicao = "and ";
 		}
 
-		query+="ORDER BY CODIGO";
+		query+="ORDER BY CODIGO LIMIT "+limite;
 		
 		Query q = em.createNativeQuery(query, Employee.class);
 

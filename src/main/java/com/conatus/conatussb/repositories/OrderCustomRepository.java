@@ -41,42 +41,42 @@ public class OrderCustomRepository {
                 limite = "99999999";
             }
 
-            String query = "SELECT FIRST " + limite + " * FROM VWMOVIMENTACAO m ";
+            String query = "SELECT * FROM VWMOVIMENTACAO m ";
 			String condicao = "where ";
 			
             //codigo_venda
             if (codOrder != null) {
-    			query += condicao + "m.COD_VENDA LIKE (:codOrder)";
+    			query += condicao + "m.COD_VENDA = (:codOrder)";
     			condicao = "and ";
     		}
             
             //codigo_cliente
             if (codClient != null) {
-    			query += condicao + "m.COD_CLIENTE LIKE (:codClient)";
+    			query += condicao + "m.COD_CLIENTE = (:codClient)";
     			condicao = "and ";
     		}
             
             //Nome_cliente
             if (nameClient != null) {
-    			query += condicao + "m.NOMECLIENTE LIKE (:nameClient)";
+    			query += condicao + "m.NOMECLIENTE ILIKE (:nameClient)";
     			condicao = "and ";
     		}
             
             //cpf_cliente
             if (cpfClient != null) {
-    			query += condicao + "m.CPFCLIENTE LIKE (:cpfClient)";
+    			query += condicao + "m.CPFCLIENTE ILIKE (:cpfClient)";
     			condicao = "and ";
     		}
             
             //rg_cliente
             if (rgClient != null) {
-    			query += condicao + "m.RGCLIENTE LIKE (:rgClient)";
+    			query += condicao + "m.RGCLIENTE ILIKE (:rgClient)";
     			condicao = "and ";
     		}
 
             //rg_cliente
             if (nameEmployee != null) {
-    			query += condicao + "m.NOMEFUNCIONARIO LIKE (:nameEmployee)";
+    			query += condicao + "m.NOMEFUNCIONARIO ILIKE (:nameEmployee)";
     			condicao = "and ";
     		}         
 
@@ -93,7 +93,7 @@ public class OrderCustomRepository {
 	    			}
             }
             
-            query = query + " ORDER BY m.COD_VENDA";
+            query = query + " ORDER BY m.COD_VENDA LIMIT "+limite;
             
             Query q = em.createNativeQuery(query, Order.class);
             		
