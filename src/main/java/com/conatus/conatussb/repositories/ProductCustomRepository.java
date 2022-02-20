@@ -26,17 +26,17 @@ public class ProductCustomRepository {
 		
 		String condicao = "where ";
 
-		if (id != null) {
+		if (id != null && id != 0) {
 			query += condicao + "COD_PRODUTOS = (:id)";
 			condicao = " and ";
 		}
 
-		if (descricao != null) {
+		if (descricao != null && descricao != "") {
 			query += condicao + "DESCRICAO ILIKE (:descricao)";
 			condicao = " and ";
 		}
 
-		if(inativo != null) {
+		if(inativo != null && inativo != "") {
 			if (inativo.equals("F")) {
 				query += condicao + "INATIVO = (:inativo)";
 				condicao = " and ";
@@ -47,15 +47,15 @@ public class ProductCustomRepository {
 
 		Query q = em.createNativeQuery(query, Product.class);
 
-		if (id != null) {
-			q.setParameter("id","%" + id + "%");
+		if (id != null && id != 0) {
+			q.setParameter("id",id);
 		}
 
-		if (descricao != null) {
+		if (descricao != null && descricao != "") {
 			q.setParameter("descricao", "%" + descricao + "%");
 		}
 		
-		if(inativo != null) {
+		if(inativo != null && inativo != "") {
 			if (inativo.equals("F") ) {
 				q.setParameter("inativo", inativo);
 			}
