@@ -23,8 +23,6 @@ public class OrderCustomRepository {
 
 	private final EntityManager em;
 	
-	
-	
 	@Autowired
 	OrderRepository repo;
 	
@@ -80,9 +78,9 @@ public class OrderCustomRepository {
     			condicao = "and ";
     		}         
 
-            if (data!=null && !"".equals(data) && !";".equals(data)) {
+            if (data!=null && !"".equals(data) && !"|".equals(data)) {
             	try {
-	                String desmembraData[] = data.split(";");
+	                String desmembraData[] = data.split("|");
 	                String dataInicial = desmembraData[0];
 	                String dataFinal = desmembraData[1];
 	                
