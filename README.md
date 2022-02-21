@@ -119,6 +119,19 @@ Exemplos de utilização de cada endpoint:
    ```
      
    
+   # Tecnologias utilizadas
+   
+   ## Back end
+   
+   - Java
+   - Spring boot
+   - JPA / Hibernate
+   - Maven
+
+   ## Implantação em Produção
+   
+   - Back end: Heroku
+   - Banco de dados: PostgreSQL
    
    # Autor 
      
