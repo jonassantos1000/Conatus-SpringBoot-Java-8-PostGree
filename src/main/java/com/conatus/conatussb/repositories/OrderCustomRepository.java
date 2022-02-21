@@ -78,9 +78,9 @@ public class OrderCustomRepository {
     			condicao = "and ";
     		}         
 
-            if (data!=null && !"".equals(data) && !"-".equals(data)) {
+            if (data!=null && !"".equals(data) && !"x".equals(data)) {
             	try {
-	                String desmembraData[] = data.split("-");
+	                String desmembraData[] = data.split("x");
 	                String dataInicial = desmembraData[0];
 	                String dataFinal = desmembraData[1];
 	                
