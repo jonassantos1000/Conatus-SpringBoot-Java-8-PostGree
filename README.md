@@ -5,8 +5,6 @@
 
 Conatus é um sistema corporativo gerencial, desenvolvido com a tecnologia SpringBoot e integrado com o banco de dados PostGreeSQL.
 
-Orientações em Portugues:
-
 # Como utilizar a API Conatus
 
 É possivel testar online os endpoints da API através do Heroku, pelo link a seguir: https://conatus-pg.herokuapp.com
