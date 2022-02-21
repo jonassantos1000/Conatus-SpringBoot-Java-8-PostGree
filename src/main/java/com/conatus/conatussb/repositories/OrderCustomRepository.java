@@ -85,7 +85,7 @@ public class OrderCustomRepository {
 	                String dataFinal = desmembraData[1];
 	                
 	                query += condicao + "CAST(m.DT_VENDA AS date) BETWEEN '" + dataInicial + "' AND '" + dataFinal + "'";
-	    			condicao = "and ";
+	    			condicao = " and ";
             	}catch(Exception e){
 	    				e.printStackTrace();
 	    			}
