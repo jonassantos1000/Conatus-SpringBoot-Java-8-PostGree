@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.conatus.conatussb.entities.reports.ProofOfOrder;
 import com.conatus.conatussb.entities.reports.Report;
 import com.conatus.conatussb.entities.reports.TotalizerPerMonth;
 import com.conatus.conatussb.repositories.ReportCustomRepository;
@@ -23,4 +24,8 @@ public class ReportService {
 	public List<TotalizerPerMonth> totalizerPerMonth(Integer ano){
 		return custom.totalizerPerMonth(ano);
 	}
-}
+	
+	public ProofOfOrder proofOfOrder(Integer id){
+		return custom.proofOfOrder(id).get(0);
+	}
+ }
