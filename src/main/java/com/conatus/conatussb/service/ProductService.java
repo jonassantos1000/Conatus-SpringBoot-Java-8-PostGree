@@ -2,12 +2,16 @@ package com.conatus.conatussb.service;
 
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.conatus.conatussb.entities.Product;
 import com.conatus.conatussb.repositories.ProductCustomRepository;
 import com.conatus.conatussb.repositories.ProductRepository;
+import com.conatus.conatussb.service.exceptions.ResourceNotFoundException;
 
 @Service
 public class ProductService {
@@ -27,9 +31,13 @@ public class ProductService {
 	}
 	
 	public Product update(Long id, Product obj) {
-		Product entity = repository.getOne(id);
-		updateData(entity,obj);
-		return repository.save(entity);
+		try {
+			Product entity = repository.getOne(id);
+			updateData(entity,obj);
+			return repository.save(entity);
+		}catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id Product: " +id);
+		}
 	}
 	
 	public void updateData(Product entity, Product obj) {
@@ -42,7 +50,11 @@ public class ProductService {
 	}
 	
 	public void delete(Long id) {
-		repository.deleteById(id);
+		try {
+			repository.deleteById(id);
+		}catch(EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException("Id Product: " + id);
+		}
 	}
 	
 }
