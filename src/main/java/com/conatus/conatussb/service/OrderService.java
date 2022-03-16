@@ -56,6 +56,7 @@ public class OrderService {
 	public void delete(Long id) {
 		try {
 			repository.deleteById(id);
+
 		}catch(EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException("Id Order: " + id);
 		}
