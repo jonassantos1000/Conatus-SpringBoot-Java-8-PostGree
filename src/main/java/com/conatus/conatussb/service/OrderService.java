@@ -3,13 +3,18 @@ package com.conatus.conatussb.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.conatus.conatussb.entities.Order;
 import com.conatus.conatussb.entities.OrderItem;
+import com.conatus.conatussb.entities.User;
 import com.conatus.conatussb.repositories.OrderCustomRepository;
 import com.conatus.conatussb.repositories.OrderRepository;
+import com.conatus.conatussb.service.exceptions.ResourceNotFoundException;
 
 @Service
 public class OrderService {
@@ -31,7 +36,7 @@ public class OrderService {
 	
 	public Order findById(Long id) {
 		Optional<Order> obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException("Id Order: "+id));
 	}
 
 	public Order insert(Order obj) {
@@ -39,12 +44,21 @@ public class OrderService {
 	}
 	
 	public Order update(Long id, Order obj) {
-		delete(id);
-		return repositoryCustom.insert(obj);
+		try {
+			Order entity = repository.getOne(id);
+			delete(id);
+			return repositoryCustom.insert(obj);
+		}catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id Order: " +id);
+		}
 	}
 		
 	public void delete(Long id) {
-		repository.deleteById(id);
+		try {
+			repository.deleteById(id);
+		}catch(EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException("Id Order: " + id);
+		}
 	}
 		
 }
