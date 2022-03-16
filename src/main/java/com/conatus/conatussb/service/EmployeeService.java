@@ -30,7 +30,7 @@ public class EmployeeService {
 	
 	public Employee findById(Long id) {
 		Optional<Employee> obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException("Id Employee: " + id));
 	}
 
 	public List<Employee> findCustom(Long id, String name, String cpf, String rg, String email, String limite){
