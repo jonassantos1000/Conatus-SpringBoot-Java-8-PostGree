@@ -3,11 +3,14 @@ package com.conatus.conatussb.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.conatus.conatussb.entities.Employee;
+import com.conatus.conatussb.entities.User;
 import com.conatus.conatussb.repositories.EmployeeCustomRepository;
 import com.conatus.conatussb.repositories.EmployeeRepository;
 import com.conatus.conatussb.service.exceptions.ResourceNotFoundException;
@@ -39,9 +42,13 @@ public class EmployeeService {
 	}
 	
 	public Employee update(Long id, Employee obj) {
-		Employee entity = repository.getOne(id);
-		updateData(entity,obj);
-		return repository.save(entity);
+		try {
+			Employee entity = repository.getOne(id);
+			updateData(entity,obj);
+			return repository.save(entity);
+		}catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id Employee: " +id);
+		}
 	}
 	
 	public void updateData(Employee entity, Employee obj) {
