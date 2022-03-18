@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.conatus.conatussb.entities.Client;
 import com.conatus.conatussb.repositories.ClientCustomRepository;
 import com.conatus.conatussb.repositories.ClientRepository;
+import com.conatus.conatussb.service.exceptions.ResourceNotFoundException;
 
 @Service
 public class ClientService {
@@ -25,7 +26,7 @@ public class ClientService {
 	
 	public Client findById(Long id) {
 		Optional<Client> obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException("Id Client: " + id));
 	}
 
 	public List<Client> findCustom(Long id, String name, String cpf, String rg, String email, String limite){
