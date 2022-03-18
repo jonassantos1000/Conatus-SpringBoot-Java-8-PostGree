@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.conatus.conatussb.entities.Client;
@@ -67,7 +68,11 @@ public class ClientService {
 	}
 	
 	public void delete(Long id) {
-		repository.deleteById(id);
+		try {
+			repository.deleteById(id);
+		}catch(EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException("Id Client: " + id);
+		}
 	}
 	
 }
