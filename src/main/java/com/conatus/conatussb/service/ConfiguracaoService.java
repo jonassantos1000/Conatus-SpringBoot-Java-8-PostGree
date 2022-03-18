@@ -3,7 +3,6 @@ package com.conatus.conatussb.service;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,7 @@ public class ConfiguracaoService {
 	
 	public Setting find() {
 		Optional<Setting> obj= repository.findById((long) 1);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException("Id Setting: "+ obj.get().getCodigo()));
 	}
 	
 	
@@ -30,7 +29,7 @@ public class ConfiguracaoService {
 			updateData(config,obj);
 			return repository.save(config);	
 		}catch(EntityNotFoundException e) {
-			throw new ResourceNotFoundException("Id Settng: " +obj.getCodigo());
+			throw new ResourceNotFoundException("Id Setting: " +obj.getCodigo());
 		}
 	}
 	
