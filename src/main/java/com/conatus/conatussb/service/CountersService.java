@@ -15,6 +15,15 @@ public class CountersService {
 	CountersCustomRepository repository;
 	
 	public List<Counters> consultaCodigo(String campo) {
-		return repository.consultaCodigo(campo);
+		List<Counters> count = repository.consultaCodigo(campo);
+		if(count.isEmpty()==true) {
+			createCounters(campo);
+			count=consultaCodigo(campo);
+		}
+		return count;
+	}
+	
+	public void createCounters(String campo) {
+		repository.createCounters(campo);
 	}
 }

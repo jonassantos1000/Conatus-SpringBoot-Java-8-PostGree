@@ -75,10 +75,15 @@ public class CountersCustomRepository {
 				q.setParameter("nome", getCampo());
 				q.executeUpdate();
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void createCounters(String campo) {
+		String query = ("insert into counters (nome, valor) values ('"+campo+"', 1)");
+		Query q = em.createNativeQuery(query,Counters.class);
+		q.executeUpdate();
 	}
 
 }
