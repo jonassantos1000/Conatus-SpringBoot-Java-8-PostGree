@@ -18,8 +18,13 @@ public class ConfiguracaoService {
 	ConfiguracaoRepository repository;
 	
 	public Setting find() {
-		Optional<Setting> obj= repository.findById((long) 1);
-		return obj.orElseThrow(() -> new ResourceNotFoundException("Id Setting: "+ obj.get().getCodigo()));
+		try {
+			Optional<Setting> obj= repository.findById((long) 1);
+			return obj.orElseThrow(() -> new ResourceNotFoundException("Id Setting: "+ obj.get().getCodigo()));
+		}catch(java.util.NoSuchElementException e) {
+			insert();
+			return find();
+		}
 	}
 	
 	
@@ -32,7 +37,7 @@ public class ConfiguracaoService {
 			throw new ResourceNotFoundException("Id Setting: " +obj.getCodigo());
 		}
 	}
-	
+		
 	public void updateData(Setting entity, Setting obj) {
 		entity.setCnpj(obj.getCnpj());
 		entity.setData(obj.getData());
@@ -47,4 +52,9 @@ public class ConfiguracaoService {
 		entity.setTLS(obj.getTLS());
 	}
 	
+	public void insert () {
+		Setting setting = new Setting();
+		setting.setCodigo((long) 1);
+		repository.save(setting);
+	}
 }
